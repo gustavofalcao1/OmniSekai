@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0f0f0f;
+  --color-foreground: #ffffff;
+  --color-accent: #22c55e;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-background: #0f0f0f;
+    --color-foreground: #ffffff;
+    --color-accent: #22c55e;
+  }
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+input, button, textarea {
+  outline: none;
+}
