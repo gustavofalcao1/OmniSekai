@@ -19,7 +19,7 @@ export default function StartSetupPage() {
     e.preventDefault()
 
     if (!name.trim()) {
-      setError('Insira um nome válido.')
+      setError('Enter a valid name.')
       return
     }
 
@@ -27,6 +27,13 @@ export default function StartSetupPage() {
       name,
       level: 1,
       xp: 0,
+      stats: {
+        strength: 0,
+        agility: 0,
+        intelligence: 0,
+        charisma: 0,
+        luck: 0,
+      },
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     })
