@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <body className={inter.className}>
+      <body className={`${inter.className} w-full md:max-w-lg mx-auto border-x-1 border-border cursor-pointer`}>
         {children}
       </body>
     </html>

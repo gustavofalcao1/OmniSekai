@@ -22,7 +22,7 @@ export default function BottomNavbar() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed flut bg-neutral-900 bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md backdrop-blur-lg rounded-xl px-5 py-3 flex justify-between items-center">
+    <nav className="fixed flut bg-neutral-900 bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md backdrop-blur-lg rounded-xl px-5 py-4 flex justify-between items-center">
       {navItems.map(({ href, icon: Icon, label }) => {
         const isActive = pathname === href
         return (

@@ -1,25 +1,60 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { useUser } from '@/hooks/useUser'
 import { db } from '@/lib/firebase'
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { useRouter } from 'next/navigation'
 
 export default function StartSetupPage() {
-  const { user, loading } = useAuth()
+  const { user, loading: authLoading } = useAuth()
+  const { profile, loading: userLoading } = useUser(user, !authLoading)
   const [name, setName] = useState('')
   const [error, setError] = useState('')
+  const [viewportHeight, setViewportHeight] = useState('100dvh')
+  const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
 
-  if (loading) return null
-  if (!user) return null
+  // Redirect if user already has profile
+  useEffect(() => {
+    if (!authLoading && !userLoading && profile) {
+      router.push('/')
+    }
+  }, [authLoading, userLoading, profile, router])
+
+  useEffect(() => {
+    const handleResize = () => {
+      const visualHeight = window.visualViewport?.height || window.innerHeight
+      const fullHeight = window.innerHeight
+      const diff = fullHeight - visualHeight
+
+      if (diff > 150) {
+        setViewportHeight('60dvh')
+      } else {
+        setViewportHeight('100dvh')
+      }
+    }
+
+    window.visualViewport?.addEventListener('resize', handleResize)
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  if (authLoading || userLoading || profile) return null
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!name.trim()) {
-      setError('Enter a valid name.')
+      setError('Please enter a valid name.')
+      return
+    }
+    if (!user) return // Type-safe fallback
+
+    if (!name.trim()) {
+      setError('Please enter a valid name.')
       return
     }
 
@@ -42,22 +77,32 @@ export default function StartSetupPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-xs">
-        <h1 className="text-2xl font-bold text-center">Crie seu personagem</h1>
+    <main
+      className="fixed inset-0 flex items-center justify-center px-4 overflow-hidden transition-all duration-300 cursor-pointer"
+      style={{ height: viewportHeight }}
+    >
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className="card w-full max-w-sm flex flex-col gap-4 text-white"
+      >
+        <h1 className="text-2xl font-bold text-center text-accent">Crie seu Personagem</h1>
 
         <input
           type="text"
-          placeholder="Seu nome"
+          placeholder="Seu Nome"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border p-2 rounded bg-background text-foreground"
+          className="w-full bg-white/5 backdrop-blur-sm border border-border rounded-lg px-4 py-2 text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-        <button type="submit" className="bg-accent px-4 text-black p-2 rounded font-bold">
-          Continuar
+        <button
+          type="submit"
+          className="bg-accent text-black font-bold rounded-lg py-2 hover:opacity-90 transition-all cursor-pointer"
+        >
+          Iniciar Jornada
         </button>
       </form>
     </main>
