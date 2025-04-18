@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Quest } from '@/types/quests'
 import { db } from '@/lib/firebase'
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
 import { User } from 'firebase/auth'
+import { QuestData } from '@/types/quests'
 
 export function useQuests(user: User | null, ready: boolean = true) {
-  const [quests, setQuests] = useState<Quest[]>([])
+  const [quests, setQuests] = useState<QuestData[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export function useQuests(user: User | null, ready: boolean = true) {
     const q = query(collection(db, `users/${user.uid}/quests`), orderBy('createdAt', 'desc'))
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Quest))
+      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as QuestData))
       setQuests(data)
       setLoading(false)
     })

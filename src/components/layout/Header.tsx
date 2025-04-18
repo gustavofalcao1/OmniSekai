@@ -12,7 +12,7 @@ export default function Header() {
   const xpPercent = Math.min((profile.xp / 500) * 100, 100)
 
   return (
-    <div className="fixed w-full max-w-md md:max-w-lg mx-auto px-4 pt-6">
+    <div className="fixed w-full max-w-md md:max-w-lg mx-auto px-4 pt-4">
       <div className="flex items-center justify-between flut backdrop-blur-lg border border-border rounded-2xl p-4">
         {/* Avatar */}
         <div className="w-14 h-14 flex items-center justify-center rounded-full bg-neutral-900 border-2 border-accent text-white text-xl font-bold glow">

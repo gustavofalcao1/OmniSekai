@@ -17,7 +17,7 @@ export type QuestRewardStats = Partial<{
   luck: number
 }>
 
-export type Quest = {
+export type QuestData = {
   id: string
   title: string
   description?: string

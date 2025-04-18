@@ -10,9 +10,10 @@
 - [x] Redirecionamento automático de `/start` se perfil já existir
 - [x] Logout pela tela de configuração
 - [x] Proteção contra rolagem e quebra de layout ao abrir teclado mobile
+- [x] Modal para criar novas quests
+- [x] Desativação do swipe lateral quando modal está ativa (controle via hook)
 
 ## 🔜 Em andamento
-- [ ] Modal para criar novas quests
 - [ ] Concluir quests e aplicar XP/stats e recompensas
 - [ ] Tela Inventory com itens obtidos
 - [ ] Validação visual e UX no processo de criação de missão
@@ -48,6 +49,10 @@
 - IA sugerindo missões personalizadas com base no histórico e perfil
 - Inventário visual com badges, itens e conquistas
 - Sincronização entre dispositivos e backup automático no Firestore
+
+### Context Menu
+- Menu with long press or right click like a pinterest menu
+- When activate on mission can archived, edit or delete
 
 ## 🔁 Sistema de Níveis e XP (em planejamento)
 - XP do usuário é acumulativo (ex: 0 → 100 → 250 → 500)

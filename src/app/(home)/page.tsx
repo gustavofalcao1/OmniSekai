@@ -1,54 +1,98 @@
 'use client'
 
+import { useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useUser } from '@/hooks/useUser'
-import SetupUpdateModal from '@/components/SetupUpdateModal'
+import { useQuests } from '@/hooks/useQuests'
+import AddQuestModal from '@/components/AddQuestModal'
+import { CheckCircle, ChevronDown, ChevronUp, Ban } from 'lucide-react'
+import { getIcon } from "@/lib/icons"
+import { useSwipeNavigation } from '@/hooks/useSwipeNavigation'
 
-export default function HomePage() {
+export default function QuestsPage() {
   const { user, loading: authLoading } = useAuth()
   const { profile, loading: userLoading } = useUser(user, !authLoading)
+  const { quests, loading: questsLoading } = useQuests(user, !authLoading)
 
-  if (authLoading || userLoading || !profile) return null
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const [showModal, setShowModal] = useState(false)
 
-  const xpPercent = Math.min((profile.xp / 500) * 100, 100)
+  useSwipeNavigation(!showModal)
+
+  if (authLoading || userLoading || questsLoading || !profile) return null
+
+  const toggleExpand = (id: string) => {
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }))
+  }
 
   return (
-    <main className="min-h-screen w-full flex flex-col items-center pt-6 pb-24 px-4 gap-6">
-      {profile?.__missing?.length ? (
-        <SetupUpdateModal missingFields={profile.__missing ?? []} />
-      ) : null}
-      {/* HUD do personagem */}
-      <section className="w-full max-w-md card backdrop-blur-lg flex items-center gap-4 mt-30">
-        {/* Avatar */}
-        <div className="w-16 h-16 rounded-full border-2 border-accent bg-neutral-900 flex items-center justify-center text-white text-xl font-bold glow">
-          {profile.name[0].toUpperCase()}
-        </div>
+    <main className="min-h-screen w-full flex flex-col items-center px-4 pt-6 pb-24 gap-4">
+      <section className="w-full max-w-md flex flex-col gap-3 mt-30">
+        {quests.map((quest) => (
+          <div key={quest.id} className="card p-4">
+            <div className="flex justify-between items-start mb-2">
+              <div>
+                <p className="text-white text-sm font-semibold">{quest.title}</p>
+                <p className="flex flex-row items-center text-xs text-white/40 mt-1 capitalize">
+                <span className="flex items-center gap-1 text-white/40">
+                  {getIcon('quest', 'time') ?? <Ban size={12} />} {quest.timeType} |
+                  {getIcon('quest', 'category') ?? <Ban size={12} />} {quest.category} |
+                  {getIcon('quest', 'difficulty') ?? <Ban size={12} />} {quest.difficulty}
+                </span>
+                </p>
+              </div>
+              <button className="text-accent pt-2 items-center gap-1 hover:opacity-80 transition">
+                <CheckCircle size={24} />
+              </button>
+            </div>
 
-        {/* Nome e Nível */}
-        <div className="flex-1">
-          <p className="text-sm text-white/70">Olá,</p>
-          <p className="text-lg font-semibold text-white">{profile.name}</p>
-          <p className="text-xs text-white/50 mt-1">Level {profile.level}</p>
-        </div>
+            <button
+              onClick={() => toggleExpand(quest.id)}
+              className="text-xs text-white/50 hover:text-white/80 flex items-center gap-1 transition mt-2"
+            >
+              {expanded[quest.id] ? (
+                <>
+                  <ChevronUp size={14} /> Ocultar detalhes
+                </>
+              ) : (
+                <>
+                  <ChevronDown size={14} /> Ver detalhes
+                </>
+              )}
+            </button>
 
-        {/* XP Progress */}
-        <div className="flex-1">
-          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-accent glow transition-all duration-300 ease-in-out"
-              style={{ width: `${xpPercent}%` }}
-            />
+            {expanded[quest.id] && (
+              <div className="mt-3 text-xs text-white/60 space-y-2 bg-white/5 rounded-lg p-3">
+                {quest.description && <p>{quest.description}</p>}
+                <ul className="space-y-1">
+                  <li className='flex flex-row items-center'>
+                    • &nbsp; {getIcon('xp') ?? <Ban size={12} />} &nbsp; {quest.rewardXP} XP
+                  </li>
+                  {Object.entries(quest.rewardStats || {}).map(([stat, value]) => (
+                    <li className='flex flex-row items-center' key={stat}>
+                      • &nbsp; {getIcon('status', stat) ?? <Ban size={12} />} &nbsp; {value} {stat}
+                    </li>
+                  ))}
+                  {quest.rewardItem && (
+                    <li className='flex flex-row items-center'>
+                      • &nbsp; {getIcon('item') ?? <Ban size={12} />} &nbsp; {quest.rewardItem}
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
-          <p className="text-[10px] text-white/40 mt-1 text-right">
-            {profile.xp} / 500 XP
-          </p>
-        </div>
+        ))}
       </section>
 
-      {/* Missões futuras */}
-      <section className="w-full max-w-md card backdrop-blur-lg text-center">
-        <p className="text-sm text-white/70">Próximas missões em breve...</p>
-      </section>
+      <button
+        onClick={() => setShowModal(true)}
+        className="fixed bottom-26 right-6 bg-accent text-3xl text-black rounded-full px-4 py-2 shadow-lg"
+      >
+        +
+      </button>
+
+      {showModal && <AddQuestModal onClose={() => setShowModal(false)} />}
     </main>
   )
 }

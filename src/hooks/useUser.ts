@@ -4,16 +4,6 @@ import { useRouter } from 'next/navigation'
 import { db } from '@/lib/firebase'
 import { User } from 'firebase/auth'
 
-type UserData = {
-  name: string
-  level: number
-  xp: number
-  stats: { [key: string]: number }
-  createdAt: any
-  updatedAt: any
-  __missing?: string[]
-}
-
 export function useUser(user: User | null, ready: boolean = true) {
   const [profile, setProfile] = useState<UserData | null>(null)
   const [loading, setLoading] = useState(true)
