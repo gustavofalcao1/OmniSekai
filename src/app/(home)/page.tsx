@@ -8,6 +8,8 @@ import AddQuestModal from '@/components/AddQuestModal'
 import { CheckCircle, ChevronDown, ChevronUp, Ban } from 'lucide-react'
 import { getIcon } from "@/lib/icons"
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation'
+import { completeQuest } from '@/lib/quests'
+import { useSystemConfig } from '@/hooks/useSystemConfig'
 
 export default function QuestsPage() {
   const { user, loading: authLoading } = useAuth()
@@ -17,9 +19,13 @@ export default function QuestsPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [showModal, setShowModal] = useState(false)
 
-  useSwipeNavigation(!showModal)
+  const { config, loading: configLoading } = useSystemConfig()
 
-  if (authLoading || userLoading || questsLoading || !profile) return null
+  useSwipeNavigation(!showModal)
+  
+  if (!user) return null
+
+  if (authLoading || userLoading || questsLoading || configLoading || !profile || !config) return null
 
   const toggleExpand = (id: string) => {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }))
@@ -41,7 +47,11 @@ export default function QuestsPage() {
                 </span>
                 </p>
               </div>
-              <button className="text-accent pt-2 items-center gap-1 hover:opacity-80 transition">
+              <button 
+                onClick={() => completeQuest(user, quest, config)}
+                className="text-accent pt-2 items-center gap-1 hover:opacity-80 transition"
+                title="Complete quest"
+              >
                 <CheckCircle size={24} />
               </button>
             </div>

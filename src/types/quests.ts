@@ -20,6 +20,7 @@ export type QuestRewardStats = Partial<{
 export type QuestData = {
   id: string
   title: string
+  status: string
   description?: string
   category: QuestCategory
   difficulty: QuestDifficulty

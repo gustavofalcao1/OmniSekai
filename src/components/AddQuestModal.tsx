@@ -37,6 +37,7 @@ export default function AddQuestModal({ onClose }: { onClose: () => void }) {
     })
   
     await addDoc(collection(db, `users/${user.uid}/quests`), {
+      status: "pending",
       title,
       description,
       timeType,
@@ -146,24 +147,33 @@ export default function AddQuestModal({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="grid grid-cols-3 gap-3 text-xs">
-          <select value={timeType} onChange={(e) => setTimeType(e.target.value)} className="bg-white/5 rounded px-2 py-1">
-            <option>diária</option>
-            <option>semanal</option>
-            <option>repetitiva</option>
-            <option>atemporal</option>
-          </select>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} className="bg-white/5 rounded px-2 py-1">
-            <option>físico</option>
-            <option>mental</option>
-            <option>social</option>
-            <option>disciplina</option>
-            <option>custom</option>
-          </select>
-          <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="bg-white/5 rounded px-2 py-1">
-            <option>fácil</option>
-            <option>médio</option>
-            <option>difícil</option>
-          </select>
+          <div>
+            <label className="text-xs text-white/50">Frequência:</label>
+            <select value={timeType} onChange={(e) => setTimeType(e.target.value)} className="w-full bg-white/5 rounded px-2 py-1 mt-2">
+              <option>Diária</option>
+              <option>Semanal</option>
+              <option>Repetitiva</option>
+              <option>Atemporal</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-white/50">Categoria:</label>
+            <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full bg-white/5 rounded px-2 py-1 mt-2">
+              <option>Físico</option>
+              <option>Mental</option>
+              <option>Social</option>
+              <option>Disciplina</option>
+              <option>Custom</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-white/50">Dificuldade:</label>
+            <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="w-full bg-white/5 rounded px-2 py-1 mt-2">
+              <option>Fácil</option>
+              <option>Médio</option>
+              <option>Difícil</option>
+            </select>
+          </div>
         </div>
 
         <button

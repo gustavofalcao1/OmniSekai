@@ -2,14 +2,26 @@
 
 import { useAuth } from '@/hooks/useAuth'
 import { useUser } from '@/hooks/useUser'
+import { useSystemConfig } from '@/hooks/useSystemConfig'
 
 export default function Header() {
   const { user, loading: authLoading } = useAuth()
-  const { profile, loading } = useUser(user, !authLoading)
+  const { profile, loading: userLoading } = useUser(user, !authLoading)
+  const { config, loading: configLoading } = useSystemConfig()
 
-  if (loading || !profile) return null
+  if (authLoading || userLoading || configLoading || !profile || !config) return null
 
-  const xpPercent = Math.min((profile.xp / 500) * 100, 100)
+  const currentXp = profile.xp ?? 0
+  const level = profile.level ?? 1
+
+  const xpRequirements = config.leveling?.xpRequirements ?? {}
+  const requiredForCurrentLevel = xpRequirements[level] ?? 0
+  const requiredForNextLevel = xpRequirements[level + 1] ?? (requiredForCurrentLevel + 100) // fallback
+
+  const progress =
+    ((currentXp - requiredForCurrentLevel) / (requiredForNextLevel - requiredForCurrentLevel)) * 100
+
+  const xpPercent = Math.min(Math.max(progress, 0), 100)
 
   return (
     <div className="fixed w-full max-w-md md:max-w-lg mx-auto px-4 pt-4">
@@ -19,13 +31,13 @@ export default function Header() {
           {profile.name[0].toUpperCase()}
         </div>
 
-        {/* Nome e Nível */}
+        {/* Name and Level */}
         <div className="flex-1 ml-4">
           <p className="text-lg font-semibold text-white leading-none">{profile.name}</p>
-          <p className="text-xs text-white/40 mt-2">Level {profile.level}</p>
+          <p className="text-xs text-white/40 mt-2">Level {level}</p>
         </div>
 
-        {/* Barra de XP */}
+        {/* XP Bar */}
         <div className="w-[30%]">
           <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div
@@ -34,7 +46,7 @@ export default function Header() {
             />
           </div>
           <p className="text-[10px] text-white/40 mt-1 text-right">
-            {profile.xp} / 500 XP
+            {currentXp} / {requiredForNextLevel} XP
           </p>
         </div>
       </div>

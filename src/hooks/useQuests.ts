@@ -1,8 +1,12 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 import { db } from '@/lib/firebase'
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
+import {
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+  where
+} from 'firebase/firestore'
 import { User } from 'firebase/auth'
 import { QuestData } from '@/types/quests'
 
@@ -13,10 +17,16 @@ export function useQuests(user: User | null, ready: boolean = true) {
   useEffect(() => {
     if (!user || !ready) return
 
-    const q = query(collection(db, `users/${user.uid}/quests`), orderBy('createdAt', 'desc'))
+    const q = query(
+      collection(db, `users/${user.uid}/quests`),
+      where('status', 'in', ['pending', null]), // status padrão
+      orderBy('createdAt', 'desc')
+    )
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as QuestData))
+      const data = snapshot.docs.map(
+        (doc) => ({ id: doc.id, ...doc.data() } as QuestData)
+      )
       setQuests(data)
       setLoading(false)
     })

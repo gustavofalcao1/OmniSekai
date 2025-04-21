@@ -6,3 +6,4 @@ export type StatInfo = {
 }
 
 export type StatsRecord = Record<StatKey, StatInfo>
+export type StatValues = Record<StatKey, number>
