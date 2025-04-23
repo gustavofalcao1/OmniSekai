@@ -4,6 +4,7 @@ import { User } from 'firebase/auth'
 import { QuestData } from '@/types/quests'
 import { StatKey, StatValues } from '@/types/stats'
 import { SystemConfig } from '@/hooks/useSystemConfig'
+import { giveItemToUser } from './inventory'
 
 export async function completeQuest(
   user: User,
@@ -58,6 +59,14 @@ export async function completeQuest(
       completedAt: new Date(),
     })
   })
+
+  if (quest.rewardItem) {
+    for (const { itemId, quantity } of quest.rewardItem) {
+      if (quantity > 0) {
+        await giveItemToUser(user.uid, itemId, quantity)
+      }
+    }
+  }
 
   if (onComplete) onComplete()
 }

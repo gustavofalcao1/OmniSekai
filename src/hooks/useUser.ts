@@ -13,8 +13,6 @@ export function useUser(user: User | null, ready: boolean = true) {
   const router = useRouter()
   const { config } = useSystemConfig()
 
-  console.log('useUser', { config, user, ready })
-
   useEffect(() => {
     if (!user || !ready) return
 

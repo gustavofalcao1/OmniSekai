@@ -17,27 +17,47 @@
 - [x] Lógica de level up automático baseada em XP e configurações
 - [x] Sistema de níveis e XP com progresso automático, recompensas e configuração via Firestore
 
-## 🔜 Em andamento
+## 💜 Em andamento
 
 ### Inventory
-- [ ] Tela Inventory com itens obtidos
-- [ ] Estrutura de coleção `/items` com definição global de itens
-- [ ] Exibição de ícones via Lucide nos itens do inventário
-- [ ] Suporte a exibição de inventário do usuário com dados vinculados a `/items/{itemId}`
+- [x] Tela Inventory com itens obtidos
+- [x] Estrutura de coleção `/items` com definição global de itens
+- [x] Exibição de ícones via Lucide nos itens do inventário
+- [x] Suporte a exibição de inventário do usuário com dados vinculados a `/items/{itemId}`
+- [x] Subcoleção `/users/{uid}/inventory` com quantidade e data de aquisição
+- [x] ItemModal com visual estilo RPG
+- [ ] Agrupar itens com +1 que tem o mesmo id, e colocar um icone de quantidade visivel no inventario
 
 ### UX & Criação de Quests
+- [x] Modal de Criação com campos dinâmicos
 - [ ] Validação visual e UX no processo de criação de missão
-- [ ] Modal de Criação (campos dinâmicos e inteligentes)
+- [x] Modularização com QuestCard
+- [x] Suporte a múltiplas recompensas de item (`rewardItem: [{ itemId, quantity }]`)
+- [x] Clique no nome do item da quest abre modal de visualização
+
+### Geral
+- [ ] Padronizar uso de `useMemo` para otimizar re-renderizações
+
+## 🐞 Bugs
+
+### Config
+- [ ] Error on handle logout
+    ```
+        page.tsx:14 Skipping auto-scroll behavior due to `position: sticky` or `position: fixed` on element:
+        await in fetchServerResponse		
+        handleLogout	@ page.tsx:14
+    ```
+
+### Bottom Nav Bar
+- [ ] Loading sem dados do usuário impede renderização de itens
 
 ## 💡 Ideias Futuras
 
 ### Inventory
-- Visualização detalhada ao estilo RPG clássico
-  - Cada item do inventário é vinculado a um item global da coleção `/items`
-  - Itens possuem: nome, descrição, ícone (Lucide), imagem opcional, stats aplicados e validade
-  - Quando o nome de um item aparecer em uma missão (ou em qualquer lugar), ele será clicável como um link
-  - Ao clicar, abre-se uma modal detalhada com as informações completas do item
-  - Pode ser expandido para incluir raridade, categoria, tipo de uso, etc.
+- Exibir stats resumidos do item no card (ao estilo tooltip ou pequeno overlay)
+- Marcar item como "equipado", "consumível", "decoração", etc.
+- Sistema de categorias de item para filtro (ex: equipamento, utilitário, raro)
+- Ações interativas no modal: equipar, usar, descartar, comparar
 
 ### Missões
 - Geração automática de quests com base no perfil do jogador
@@ -45,11 +65,6 @@
 - Classificação de tempo para quests: diária, semanal, repetitiva, atemporal
 - Criação de quests por IA com base em prompts (a IA entende as regras e estrutura)
 - Quests privadas e autogeradas por padrão
-
-### Modal de Criação (Fase Expandida)
-- Campos: título, descrição, XP, stats (por tipo e quantidade), item ou itens
-- Seleção de item a partir de uma **coleção global de itens** (`/items/{itemId}`)
-- Validação leve e edição direta de cada campo
 
 ### Interface
 - Efeitos visuais suaves entre rotas (opcional com framer-motion ou CSS-only)
@@ -62,5 +77,6 @@
 - Sincronização entre dispositivos e backup automático no Firestore
 
 ### Context Menu
-- Menu with long press or right click like a pinterest menu
-- When activate on mission can archived, edit or delete
+- Menu com long press ou right click estilo Pinterest
+- Quando ativado em uma missão: arquivar, editar ou excluir
+

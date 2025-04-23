@@ -5,6 +5,29 @@ Each entry includes the date, version, technical notes, decisions made, and link
 
 ---
 
+## [v0.0.6] – 2025-04-23
+
+### 💜 Inventory System (v1)
+- Created global collection `/items` with `ItemData` including stats, rarity, expiration.
+- Implemented `useItems()` to fetch all item definitions.
+- Users now have a subcollection `/users/{uid}/inventory` with quantity and acquisition date.
+- `Inventory` screen with RPG-style layout, responsive blocks and infinite scroll.
+- Visual grouping of items by quantity, with empty slots rendered dynamically.
+- `ItemModal` displays item details in a classic RPG format.
+
+### ✨ Quest UI & Modularization
+- Created `QuestCard` component for mission display.
+- Quests now support multiple item rewards (`rewardItem: [{ itemId, quantity }]`).
+- Clicking an item name in a quest opens the item modal.
+- Updated `completeQuest()` to apply item rewards using `giveItemToUser()`.
+
+### 🌐 General Improvements
+- Refactored `useInventory()` to reflect subcollection in real time.
+- Updated `FEATURES.md` to reflect accurate status.
+- Created `ItemCard` with interactive visual support and modal trigger.
+
+---
+
 ## [v0.0.5] – 2025-04-20
 
 ### 🧩 Leveling System (XP & Rewards)
@@ -70,3 +93,4 @@ Each entry includes the date, version, technical notes, decisions made, and link
 - Basic page structure created for `/login` and `/`.
 - Deployed first working build to Vercel.
 - Project vision, structure, and long-term planning drafted.
+

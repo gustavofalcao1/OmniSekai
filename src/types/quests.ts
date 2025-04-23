@@ -17,6 +17,12 @@ export type QuestRewardStats = Partial<{
   luck: number
 }>
 
+export type QuestRewardItem = {
+  itemId: string
+  quantity: number
+}
+
+
 export type QuestData = {
   id: string
   title: string
@@ -27,7 +33,7 @@ export type QuestData = {
   timeType: QuestTimeType
   rewardXP: number
   rewardStats: QuestRewardStats
-  rewardItem?: string
+  rewardItem?: QuestRewardItem[]
   completed: boolean
   createdAt: any
   completedAt?: any

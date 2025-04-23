@@ -8,7 +8,6 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { useAuth } from '@/hooks/useAuth'
 
-
 const defaultStats: StatsRecord = {
   strength: {name: "Força", value: 0},
   agility: {name: "Agilidade", value: 0},

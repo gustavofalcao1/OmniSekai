@@ -19,14 +19,19 @@ export function useQuests(user: User | null, ready: boolean = true) {
 
     const q = query(
       collection(db, `users/${user.uid}/quests`),
-      where('status', 'in', ['pending', null]), // status padrão
+      where('status', 'in', ['pending', null]),
       orderBy('createdAt', 'desc')
     )
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() } as QuestData)
-      )
+      const data = snapshot.docs.map((doc) => {
+        const raw = doc.data()
+        return {
+          id: doc.id,
+          ...raw,
+          rewardItem: raw.rewardItem ?? [],
+        } as QuestData
+      })
       setQuests(data)
       setLoading(false)
     })
