@@ -31,7 +31,6 @@ export function useSystemConfig() {
     const fetchConfig = async () => {
       try {
         const ref = doc(db, 'config', 'system')
-        console.log('Fetching system config from Firestore:', ref.path)
         const snap = await getDoc(ref)
         if (snap.exists()) {
           setConfig(snap.data() as SystemConfig)

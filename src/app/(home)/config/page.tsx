@@ -1,13 +1,18 @@
 'use client'
 
 import { useAuth } from '@/hooks/useAuth'
+import { useUser } from '@/hooks/useUser'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { useRouter } from 'next/navigation'
+import LoadingScreen from '@/components/LoadingScreen'
 
 export default function ConfigPage() {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
+  const { profile, loading } = useUser(user, !authLoading)
   const router = useRouter()
+
+  if (authLoading || loading || !profile) return <LoadingScreen />
 
   const handleLogout = async () => {
     await signOut(auth)

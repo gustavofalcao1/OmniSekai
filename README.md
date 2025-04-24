@@ -17,7 +17,11 @@ Users become characters in their own journey: every action in life becomes a que
 - 🧠 Profile System with XP, Level, and Stats
 - 🎯 Quest System (daily, weekly, repeatable, timeless)
 - ⚔️ Stat bonuses based on quest difficulty
-- 🎒 Inventory system (items, quantity, acquisition date)
+- 🔄 Dynamic quest rewards (XP, stats, items, skill points)
+- 🧠 Skill System (active/passive, level-based, duration and cooldown)
+- 🎁 Item & Skill Selection in quest creation via interactive modals
+- 📈 Passive level-up detection via user hook (configurable XP thresholds)
+- 🎒 Inventory system with `/users/{uid}/inventory`
 - 📦 Global item collection `/items`
 - 💎 Item modal with stats, rarity, expiration, and visual presentation
 - 🧩 Theming System (dark mode by default)
@@ -55,10 +59,11 @@ OmniSekai is deployed and tested for **Vercel**, with zero-config deploy support
 
 OmniSekai is being built as a tool for:
 
-- Personal self-improvement
+- Personal self-improvement and habit reinforcement
 - Interface design experimentation
 - Aesthetic exploration (inspired by Genshin Impact, Tower of Fantasy, Apple Vision UI)
 - Long-term extensibility as a modular gamified platform
+- Empowering users to define their own quests, skills, and growth path
 
 > This project is in active development. Expect rapid iterations, visual polish, and evolving functionality.
 

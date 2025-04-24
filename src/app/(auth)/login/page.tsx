@@ -21,7 +21,6 @@ export default function LoginPage() {
       const diff = fullHeight - visualHeight
 
       if (diff > 150) {
-        // Keyboard likely open → use 60% height
         setViewportHeight('60dvh')
       } else {
         setViewportHeight('100dvh')
@@ -66,7 +65,7 @@ export default function LoginPage() {
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Palavra-passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full bg-white/5 backdrop-blur-sm border border-border rounded-lg px-4 py-2 text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent"
@@ -78,7 +77,7 @@ export default function LoginPage() {
           type="submit"
           className="bg-accent text-black font-bold rounded-lg py-2 hover:opacity-90 transition-all"
         >
-          Sign In
+          Entrar
         </button>
       </form>
     </main>

@@ -5,6 +5,34 @@ Each entry includes the date, version, technical notes, decisions made, and link
 
 ---
 
+## [v0.0.7] – 2025-04-24
+
+### 🧠 Skill System (v1)
+- Created `/users/{uid}/skills` subcollection with support for active and passive modes.
+- Skills have `level`, `points`, and optional `duration` and `cooldown`.
+- `useSkills()` hook returns real-time skills for current user.
+- `SkillModal` shows details including cooldown, active status and progression.
+- Skills can be activated with timers reflected in UI.
+- Skill points awarded via quests using `rewardSkills`, which also trigger level-up.
+- Header displays currently active skills with icon and circular time badge.
+
+### 🎯 Quest Enhancements
+- `AddQuestModal` redesigned with modular sections and dynamic inputs.
+- Integrated `ItemSelectModal` and `SkillSelectModal` for visual multi-selection.
+- Item and skill names are clickable, opening their respective modal views.
+- `completeQuest()` now applies skill points with `giveSkillPoints()`.
+
+### 🎁 Inventory & Modal Updates
+- `ItemSelectModal` now supports quantity input with + / - buttons.
+- AddQuestModal supports scrollable layout and avoids BottomNavbar overlap.
+- Improved responsiveness and UX for all modals.
+
+### 📄 Documentation & Config
+- Updated `README.md` to reflect all current systems (skills, item selection, rewards).
+- Updated `FEATURES.md` to include all v0.0.8 completed work.
+
+---
+
 ## [v0.0.6] – 2025-04-23
 
 ### 💜 Inventory System (v1)

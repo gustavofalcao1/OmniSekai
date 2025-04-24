@@ -9,6 +9,9 @@ import {
   Backpack,
   Settings,
 } from "lucide-react"
+import { useAuth } from '@/hooks/useAuth'
+import { useUser } from '@/hooks/useUser'
+import LoadingScreen from '@/components/LoadingScreen'
 
 const navItems = [
   { href: "/status", icon: BarChart2, label: "Status" },
@@ -19,7 +22,11 @@ const navItems = [
 ]
 
 export default function BottomNavbar() {
+  const { user, loading: authLoading } = useAuth()
+  const { profile, loading: userLoading } = useUser(user, !authLoading)
   const pathname = usePathname()
+
+  if (authLoading || userLoading || !profile ) return <LoadingScreen />
 
   return (
     <nav className="fixed flut bg-neutral-900 bottom-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md backdrop-blur-lg rounded-xl px-5 py-4 flex justify-between items-center">

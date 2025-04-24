@@ -4,12 +4,13 @@ import { useAuth } from '@/hooks/useAuth'
 import { useUser } from '@/hooks/useUser'
 import { getIcon } from '@/lib/icons'
 import { Ban } from 'lucide-react'
+import LoadingScreen from '@/components/LoadingScreen'
 
 export default function StatusPage() {
   const { user, loading: authLoading } = useAuth()
   const { profile, loading } = useUser(user, !authLoading)
 
-  if (authLoading || loading || !profile) return null
+  if (authLoading || loading || !profile) return <LoadingScreen />
 
   const stats = profile.stats ?? {}
 

@@ -5,6 +5,7 @@ import { useUser } from '@/hooks/useUser'
 import { useInventory } from '@/hooks/useInventory'
 import ItemCard from '@/components/ItemCard'
 import ItemModal from '@/components/ItemModal'
+import LoadingScreen from '@/components/LoadingScreen'
 
 import { useEffect, useState, useMemo } from 'react'
 
@@ -33,7 +34,7 @@ export default function InventoryPage() {
     }
   }, [visualItems.length, slotCount])
 
-  if (authLoading || loading || !profile) return null
+  if (authLoading || loading || !profile) return <LoadingScreen />
 
   const filledSlots = visualItems.map((item) => (
     <ItemCard key={item._visualKey} item={item} onClick={() => setSelectedItemId(item.itemId)} />
