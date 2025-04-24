@@ -2,6 +2,7 @@ import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { SystemConfig } from '@/hooks/useSystemConfig'
 import { UserData } from '@/types/users'
+import { giveItemToUser } from './inventory'
 
 export async function applyLevelUpIfNeeded(
   profile: UserData,
@@ -16,7 +17,8 @@ export async function applyLevelUpIfNeeded(
   let nextLevel = currentLevel + 1
   let leveledUp = false
   let updatedStats = { ...profile.stats }
-  let updatedInventory = [...(profile.inventory ?? [])]
+
+  const itemsToGive: { itemId: string, quantity: number }[] = []
 
   while (
     xpRequirements[nextLevel.toString()] !== undefined &&
@@ -33,7 +35,7 @@ export async function applyLevelUpIfNeeded(
     }
 
     if (rewards?.items) {
-      updatedInventory.push(...rewards.items)
+      itemsToGive.push(...rewards.items)
     }
 
     nextLevel++
@@ -43,8 +45,11 @@ export async function applyLevelUpIfNeeded(
     await updateDoc(doc(db, 'users', userId), {
       level: currentLevel,
       stats: updatedStats,
-      inventory: updatedInventory,
       updatedAt: new Date()
     })
+
+    for (const item of itemsToGive) {
+      await giveItemToUser(userId, item.itemId, item.quantity)
+    }
   }
 }

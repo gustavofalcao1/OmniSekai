@@ -16,12 +16,11 @@ export type SystemConfig = {
     levelRewards?: {
       [level: string]: {
         stats?: { [stat: string]: number }
-        items?: string[]
+        items?: { itemId: string, quantity: number }[]
       }
     }
   }
 }
-
 
 export function useSystemConfig() {
   const [config, setConfig] = useState<SystemConfig | null>(null)
