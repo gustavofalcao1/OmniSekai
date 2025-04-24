@@ -5,6 +5,15 @@ Each entry includes the date, version, technical notes, decisions made, and link
 
 ---
 
+## [v0.1.8] – 2025-04-24
+
+### 🚀 First Public Deployment
+- Version `v0.1.8` marks the first stable deployment of OmniSekai.
+- All features from `v0.0.7` are live: skills, quests, XP, inventory, modals, and real-time UI.
+- Release does not include code changes — version bump and deploy only.
+
+---
+
 ## [v0.0.7] – 2025-04-24
 
 ### 🧠 Skill System (v1)
@@ -29,7 +38,7 @@ Each entry includes the date, version, technical notes, decisions made, and link
 
 ### 📄 Documentation & Config
 - Updated `README.md` to reflect all current systems (skills, item selection, rewards).
-- Updated `FEATURES.md` to include all v0.0.8 completed work.
+- Updated `FEATURES.md` to include all v0.0.7 completed work.
 
 ---
 

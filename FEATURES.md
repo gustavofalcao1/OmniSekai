@@ -1,6 +1,7 @@
 # 🌟 Planned Features – OmniSekai
 
 ## ✅ Implemented
+- 🚀 First public deployment (v0.1.8)
 - Login com Firebase
 - Setup inicial com criação de personagem
 - Header com XP e avatar com moldura dinâmica
